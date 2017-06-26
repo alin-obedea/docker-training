@@ -37,7 +37,7 @@ class ApiController extends Controller
 
     /**
      *
-     * @Route("/post/{slug}", requirements={"page": "[1-9]\d*"})
+     * @Route("/post/{slug}")
      * @Method("GET")
      * @param $slug
      * @return object
