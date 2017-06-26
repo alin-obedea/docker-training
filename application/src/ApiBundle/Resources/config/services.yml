@@ -1,0 +1,15 @@
+services:
+    ApiBundle\:
+        resource: '../../ApiBundle/*'
+        # you can exclude directories or files
+        # but if a service is unused, it's removed anyway
+        exclude: '../../src/ApiBundle/{Controller,Entity,Repository}'
+    ApiBundle\Controller\:
+        resource: '../../ApiBundle/Controller'
+        public: true
+        tags: ['controller.service_arguments']
+    crv.doctrine_entity_repository.blog_post:
+        class: Doctrine\ORM\EntityRepository
+        factory: ["@doctrine", getRepository]
+        arguments:
+            - AppBundle\Entity\Comment
