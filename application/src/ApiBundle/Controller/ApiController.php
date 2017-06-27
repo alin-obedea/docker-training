@@ -3,10 +3,11 @@
 namespace ApiBundle\Controller;
 
 use AppBundle\Entity\Post;
+use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
-class ApiController extends Controller
+class ApiController extends FOSRestController
 {
     /**
      * @Route("/api/posts")
@@ -14,16 +15,14 @@ class ApiController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $posts = $em->getRepository(Post::class)->findBy(['author' => $this->getUser()], ['publishedAt' => 'DESC'], ['limit' => '10']);
+        $posts = $em->getRepository(Post::class)->findBy(['author' => $this->getUser()], ['publishedAt' => 'DESC'], ['limit' => 10]);
 
-        return $posts;
+        return $this->render('api/blog/index.html.twig', ['posts' => $posts]);
     }
 
     /**
      *
-     * @Route("/posts/{page}", requirements={"page": "[1-9]\d*"})
-     * @Method("GET")
-     * @Cache(smaxage="10")
+     * @Route("/api/posts/{page}", requirements={"page": "[1-9]\d*"})
      * @param $page
      * @return
      */
@@ -32,13 +31,12 @@ class ApiController extends Controller
         $em = $this->getDoctrine()->getManager();
         $posts = $em->getRepository(Post::class)->findLatest($page);
 
-        return $posts;
+        return $this->render('api/blog/index.html.twig', ['posts' => $posts]);
     }
 
     /**
      *
-     * @Route("/post/{slug}")
-     * @Method("GET")
+     * @Route("/api/post/{slug}")
      * @param $slug
      * @return object
      */
@@ -47,6 +45,6 @@ class ApiController extends Controller
         $em = $this->getDoctrine()->getManager();
         $posts = $em->getRepository(Post::class)->findOneBy($slug);
 
-        return $posts;
+        return $this->render('api/blog/index.html.twig', ['posts' => $posts]);
     }
 }

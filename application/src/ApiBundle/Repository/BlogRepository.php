@@ -16,4 +16,11 @@ class BlogRepository extends EntityRepository
 
         return $query;
     }
+
+//    public function findOneBySlugQuery()
+//    {
+//        $query = $this->_em->createQuery(
+//            "SELECT comments FROM AppBundle:Comment "
+//        );
+//    }
 }
