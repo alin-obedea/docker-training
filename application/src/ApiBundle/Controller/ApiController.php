@@ -18,6 +18,7 @@ class ApiController extends FOSRestController
         $em = $this->getDoctrine()->getManager();
         $posts = $em->getRepository(Post::class)->findBy([], [], Post::NUM_ITEMS);
 
+//        return $posts;
         return $this->render('api/blog/index.html.twig', ['posts' => $posts]);
     }
 
@@ -32,6 +33,7 @@ class ApiController extends FOSRestController
         $em = $this->getDoctrine()->getManager();
         $posts = $em->getRepository(Post::class)->findLatest($page);
 
+//        return $posts;
         return $this->render('api/blog/index.html.twig', ['posts' => $posts]);
     }
 
@@ -39,13 +41,14 @@ class ApiController extends FOSRestController
      *
      * @Route("/api/post/{slug}")
      * @param $slug
-     * @return object
+     * @return
      */
     public function showAction($slug)
     {
         $em = $this->getDoctrine()->getManager();
         $posts = $em->getRepository(Post::class)->findBy(['slug' => $slug], [], 1);
 
+//        return $posts;
         return $this->render('api/blog/index.html.twig', ['posts' => $posts]);
     }
 
@@ -60,6 +63,7 @@ class ApiController extends FOSRestController
         $em = $this->getDoctrine()->getManager();
         $post = $em->getRepository(Post::class)->findOneBy(['slug' => $slug]);
 
+        //return $post;
         return $this->render('api/blog/comment.html.twig', ['comments' => $post->getComments()]);
     }
 }
